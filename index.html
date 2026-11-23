@@ -478,8 +478,8 @@ document.getElementById('photoInput').addEventListener('change',function(){
   alert('Please select an image.');
   return;
  }
- if(file.size>800000){
-  alert('Please choose a photo smaller than 800 KB.');
+ if(file.size>800000000){
+  alert('Please choose a photo smaller than 5 MB.');
   this.value='';
   return;
  }
