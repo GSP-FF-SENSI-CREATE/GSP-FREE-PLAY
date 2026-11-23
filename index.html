@@ -4,159 +4,171 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#050816">
-<title>GSP FREE PLAY - 3D ARENA</title>
+<title>GSP FREE PLAY - Version 3.1</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--cyan:#00eaff;--blue:#176dff;--bg:#050816}
 body{
- background:#050816;color:white;font-family:Arial,sans-serif;
+ background:var(--bg);color:white;font-family:Arial,sans-serif;
  overflow-x:hidden;
- perspective:1200px;
 }
-button{cursor:pointer;font-family:inherit}
-:root{--cyan:#00eaff;--blue:#176dff;--purple:#9c35ff}
+button,input{font-family:inherit}
+button{cursor:pointer}
 header{
- position:sticky;top:0;z-index:20;
- height:68px;padding:0 5%;
- display:flex;align-items:center;justify-content:space-between;
- background:#060b1bea;backdrop-filter:blur(18px);
- border-bottom:1px solid #174c6b;
+ height:68px;padding:0 5%;display:flex;align-items:center;
+ justify-content:space-between;background:#080e20ed;
+ border-bottom:1px solid #174c6b;position:sticky;top:0;z-index:20;
+ backdrop-filter:blur(15px);
 }
-.logo{font-size:22px;font-weight:1000;color:var(--cyan);text-shadow:0 0 15px var(--cyan)}
+.logo{font-size:21px;font-weight:1000;color:var(--cyan);text-shadow:0 0 15px var(--cyan)}
 .logo span{color:white}
 nav{display:flex;gap:20px}
 nav button{background:none;border:0;color:#c3d6ed;font-size:12px;font-weight:bold}
 nav button:hover{color:var(--cyan)}
+
 .hero{
- min-height:660px;position:relative;overflow:hidden;
+ min-height:600px;position:relative;overflow:hidden;
  display:flex;align-items:center;justify-content:center;
- flex-direction:column;text-align:center;padding:70px 20px;
- isolation:isolate;
- background:radial-gradient(ellipse at center,#102a52 0%,#080d20 48%,#050816 85%);
-}
-.grid-floor{
- position:absolute;z-index:-1;
- width:150%;height:380px;bottom:-130px;left:-25%;
- background-image:
- linear-gradient(#00cfff30 1px,transparent 1px),
- linear-gradient(90deg,#00cfff30 1px,transparent 1px);
- background-size:45px 45px;
- transform:perspective(300px) rotateX(63deg);
- transform-origin:top;
- mask-image:linear-gradient(to bottom,black,transparent);
+ flex-direction:column;text-align:center;padding:65px 20px;
+ background:radial-gradient(ellipse at center,#12315b,#080d20 55%,#050816);
 }
 .stars{
- position:absolute;inset:0;z-index:-1;
+ position:absolute;inset:0;pointer-events:none;
  background-image:radial-gradient(#bcefff 1px,transparent 1px);
- background-size:65px 65px;opacity:.3;
- animation:stars 12s linear infinite;
+ background-size:60px 60px;opacity:.3;
+ animation:stars 15s linear infinite;
 }
-@keyframes stars{to{background-position:65px 130px}}
+@keyframes stars{to{background-position:60px 120px}}
+.grid-floor{
+ position:absolute;bottom:-150px;width:150%;height:350px;
+ background-image:linear-gradient(#00cfff30 1px,transparent 1px),
+ linear-gradient(90deg,#00cfff30 1px,transparent 1px);
+ background-size:40px 40px;
+ transform:perspective(300px) rotateX(65deg);
+}
 .tag{color:var(--cyan);font-size:11px;letter-spacing:5px;font-weight:bold}
-h1{
- font-size:clamp(40px,8vw,78px);font-weight:1000;
- margin:18px 0;text-shadow:0 0 25px #008bff;
-}
-h1 span{color:var(--cyan)}
+h1{font-size:clamp(40px,8vw,76px);margin:20px 0;text-shadow:0 0 25px #008bff}
+h1 span,.heading span{color:var(--cyan)}
 .subtitle{color:#b6c8e4;font-size:13px;letter-spacing:2px}
+
 .arena{
- width:290px;height:290px;margin:30px auto 35px;
+ width:260px;height:260px;margin:30px;
  position:relative;transform-style:preserve-3d;
- animation:arenaFloat 4s ease-in-out infinite;
+ animation:float 4s ease-in-out infinite;
 }
 .core{
- position:absolute;inset:55px;border-radius:50%;
- background:radial-gradient(circle at 35% 25%,#9cf8ff,#087aff 30%,#17134c 70%);
- box-shadow:0 0 35px #00dfff,0 0 100px #005dff66;
- transform:translateZ(35px);
-}
-.core:before{
- content:"GSP";position:absolute;inset:0;display:grid;place-items:center;
- font-size:42px;font-weight:1000;color:white;
+ position:absolute;inset:50px;border-radius:50%;
+ background:radial-gradient(circle at 35% 25%,#b9ffff,#087aff 35%,#17134c 75%);
+ box-shadow:0 0 45px #00dfff,0 0 100px #005dff66;
+ display:grid;place-items:center;font-size:38px;font-weight:1000;
  text-shadow:0 0 20px #00eaff;
+ transform:translateZ(30px);
 }
 .ring{
- position:absolute;inset:20px;border:3px solid var(--cyan);
- border-radius:50%;transform:rotateX(70deg) translateZ(25px);
- box-shadow:0 0 15px var(--cyan),inset 0 0 15px var(--cyan);
- animation:rotateRing 7s linear infinite;
+ position:absolute;inset:15px;border:3px solid var(--cyan);
+ border-radius:50%;transform:rotateX(70deg);
+ box-shadow:0 0 15px var(--cyan);
+ animation:spin 7s linear infinite;
 }
-.ring.two{
- inset:0;border-color:#a34bff;
- transform:rotateY(65deg);
- animation:rotateRing 10s linear infinite reverse;
-}
-.ring.three{
- inset:35px;border-color:#ffffff77;
- transform:rotateX(75deg) rotateY(35deg);
- animation:rotateRing 5s linear infinite;
-}
-@keyframes rotateRing{to{transform:rotateX(70deg) rotateZ(360deg)}}
-@keyframes arenaFloat{
- 0%,100%{transform:translateY(0) rotateY(-8deg)}
- 50%{transform:translateY(-18px) rotateY(8deg)}
-}
-.play{
- border:1px solid #7af7ff;padding:16px 40px;border-radius:9px;
+.ring.two{inset:0;border-color:#a34bff;animation:spin 10s linear infinite reverse}
+.ring.three{inset:35px;border-color:#fff8;animation:spin 5s linear infinite}
+@keyframes spin{to{rotate:360deg}}
+@keyframes float{50%{transform:translateY(-18px) rotateY(10deg)}}
+
+.primary{
+ border:1px solid #7af7ff;padding:14px 28px;border-radius:8px;
  background:linear-gradient(135deg,#00eaff,#1261ff);
- color:#03101d;font-size:16px;font-weight:1000;
- box-shadow:0 7px 0 #073e91,0 0 35px #00dfff88;
+ color:#03101d;font-size:14px;font-weight:1000;
+ box-shadow:0 6px 0 #073e91,0 0 30px #00dfff77;
  transition:.2s;
 }
-.play:hover{transform:translateY(-5px);box-shadow:0 12px 0 #073e91,0 0 50px #00eaff}
-.play:active{transform:translateY(3px);box-shadow:0 2px 0 #073e91}
-.section{padding:65px 6%;max-width:1200px;margin:auto}
-.heading{text-align:center;font-size:30px}
-.heading span{color:var(--cyan)}
-.sub{text-align:center;color:#91a8c9;margin:12px 0 35px;font-size:13px}
+.primary:hover{transform:translateY(-4px);box-shadow:0 10px 0 #073e91,0 0 40px #00eaff}
+.section{padding:55px 6%;max-width:1200px;margin:auto}
+.heading{text-align:center;font-size:28px}
+.sub{text-align:center;color:#91a8c9;margin:12px 0 28px;font-size:13px}
+
+.search{
+ max-width:550px;margin:0 auto 25px;display:flex;
+ background:#111c32;border:1px solid #285178;border-radius:10px;
+ overflow:hidden;
+}
+.search input{
+ flex:1;min-width:0;padding:15px;background:transparent;
+ color:white;border:0;outline:0;font-size:14px;
+}
+.search button{padding:0 18px;background:#00dfff;border:0;font-weight:bold}
+
+.filters{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:25px}
+.filter{
+ padding:9px 17px;border-radius:25px;
+ background:#111c32;color:#aebfdc;border:1px solid #29466b;
+}
+.filter.active{background:var(--cyan);color:#06101d;font-weight:bold}
+
 .games{
- display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:25px;
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px;
  perspective:1000px;
 }
 .game{
- position:relative;overflow:hidden;border-radius:16px;
+ border:1px solid #29466b;border-radius:16px;overflow:hidden;
  background:linear-gradient(145deg,#172a4e,#090e20);
- border:1px solid #315477;
- transform-style:preserve-3d;
- transition:transform .3s,border .3s,box-shadow .3s;
+ transition:.3s;transform-style:preserve-3d;
 }
-.game:hover{
- border-color:var(--cyan);
- box-shadow:0 20px 50px #008bff33;
-}
-.game-art{
- height:175px;position:relative;display:grid;place-items:center;
- background:radial-gradient(circle at center,#2456a4,#101631 65%);
+.game:hover{transform:translateY(-10px) rotateX(3deg);border-color:var(--cyan);box-shadow:0 20px 40px #008bff33}
+.game[hidden]{display:none}
+.art{
+ height:165px;position:relative;display:grid;place-items:center;
  overflow:hidden;
+ background:radial-gradient(ellipse at 50% 100%,#ff8a37,#163a70 48%,#090e20);
 }
-.game-art:before{
- content:"";position:absolute;width:170px;height:170px;
- border:2px solid #00eaff77;border-radius:50%;
- animation:rotateRing 9s linear infinite;
+.art.purple{background:radial-gradient(ellipse at 50% 100%,#9e42ff,#25215d 50%,#090e20)}
+.art.green{background:radial-gradient(ellipse at 50% 100%,#23d7a2,#12455a 50%,#090e20)}
+.art:before{
+ content:"";position:absolute;width:190px;height:190px;
+ border:2px solid #00eaff99;border-radius:50%;
+ animation:spin 12s linear infinite;
 }
-.game-art .emoji{
- font-size:65px;filter:drop-shadow(0 0 20px #00cfff);
- transform:translateZ(40px);
+.art:after{
+ content:"";position:absolute;width:125px;height:125px;
+ border:1px solid #fff5;border-radius:50%;transform:rotateX(65deg);
 }
-.game-info{padding:22px}
-.game-info h3{margin-bottom:10px}
+.art .symbol{font-size:67px;z-index:1;filter:drop-shadow(0 0 20px #00eaff)}
+.art small{
+ position:absolute;bottom:12px;z-index:2;letter-spacing:3px;font-weight:bold;
+ text-shadow:0 0 10px #00eaff;
+}
+.game-info{padding:20px}
+.game-info h3{margin-bottom:9px}
 .game-info p{font-size:12px;color:#9eb3d0;line-height:1.7}
 .status{
- display:block;margin:16px 0;color:#00eaff;font-size:10px;
- background:#102e40;padding:8px;border-radius:5px;text-align:center;
+ display:block;margin:14px 0;color:#00eaff;font-size:9px;
+ background:#102e40;padding:9px;border-radius:5px;text-align:center;
 }
-.game .play{width:100%;font-size:12px;padding:13px}
-.profile{
- background:linear-gradient(135deg,#122a4d,#11132e);
- border:1px solid #28638a;border-radius:16px;
- text-align:center;padding:35px;
+.game .primary{width:100%;font-size:12px;padding:12px}
+
+.profile-card{
+ max-width:520px;margin:auto;padding:30px;
+ border-radius:17px;text-align:center;
+ background:linear-gradient(135deg,#142b50,#11132e);
+ border:1px solid #28638a;
 }
 .avatar{
- width:75px;height:75px;margin:0 auto 15px;border-radius:50%;
+ width:95px;height:95px;border-radius:50%;margin:0 auto 15px;
  display:grid;place-items:center;background:linear-gradient(135deg,#00eaff,#3155ff);
- color:#06101c;font-size:35px;box-shadow:0 0 25px #00dfff;
+ color:#06101d;font-size:35px;overflow:hidden;
+ box-shadow:0 0 25px #00dfff;
 }
-.profile p{color:#9fb5d5;font-size:13px;margin-top:10px}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.profile-card p{color:#9fb5d5;font-size:12px;margin:9px}
+.profile-input{
+ display:block;width:100%;margin:12px 0;padding:13px;
+ background:#080f22;color:white;border:1px solid #315477;
+ border-radius:8px;outline:none;
+}
+.profile-card label{display:block;text-align:left;color:#b9d2ec;font-size:12px;margin-top:15px}
+.profile-card .primary{margin-top:12px;width:100%}
+
 footer{
  padding:35px 15px;text-align:center;background:#030611;
  border-top:1px solid #1d3b58;color:#8295b5;font-size:12px;line-height:2;
@@ -168,41 +180,79 @@ footer{
 }
 .modal.show{display:flex}
 .modal-box{
- width:100%;max-width:420px;padding:30px 22px;
- text-align:center;border-radius:16px;
- background:linear-gradient(145deg,#142b50,#090e20);
+ width:100%;max-width:420px;padding:30px 22px;text-align:center;
+ border-radius:16px;background:linear-gradient(145deg,#142b50,#090e20);
  border:1px solid var(--cyan);box-shadow:0 0 50px #008cff55;
 }
 .modal-box h2{color:var(--cyan);margin-bottom:15px}
 .modal-box p{color:#c0cce0;font-size:13px;line-height:1.8}
-.close{
- margin-top:22px;padding:12px 30px;background:var(--cyan);
- border:0;border-radius:6px;font-weight:bold;
+.close{margin-top:22px;padding:12px 30px;background:var(--cyan);border:0;border-radius:6px;font-weight:bold}
+
+/* LOADING INTRO */
+#loader{
+ position:fixed;inset:0;background:#050816;z-index:100;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;
+ transition:opacity .6s;
 }
+.loader-logo{font-size:32px;font-weight:1000;color:var(--cyan);text-shadow:0 0 25px var(--cyan)}
+.loader-ring{
+ width:85px;height:85px;border:4px solid #1b355a;
+ border-top-color:var(--cyan);border-right-color:#974aff;
+ border-radius:50%;animation:spin 1s linear infinite;margin:25px;
+}
+.loader-text{font-size:11px;letter-spacing:4px;color:#9bbbd5}
+.progress{width:180px;height:4px;background:#20334d;margin-top:20px;border-radius:10px;overflow:hidden}
+.progress div{height:100%;width:0;background:var(--cyan);animation:load 2s forwards}
+@keyframes load{to{width:100%}}
+
+.desktop-nav{display:flex}
+.bottom-nav{display:none}
+
 .particle{
  position:fixed;bottom:-10px;width:3px;height:3px;
  background:var(--cyan);border-radius:50%;pointer-events:none;
  animation:rise linear infinite;z-index:-1;
 }
 @keyframes rise{to{transform:translateY(-110vh);opacity:0}}
-@media(max-width:600px){
- header{padding:0 4%;height:60px}
- .logo{font-size:17px}nav{gap:11px}nav button{font-size:10px}
- .hero{min-height:610px}
- .arena{width:245px;height:245px}
- .core{inset:48px}
- .ring{inset:15px}
- .ring.two{inset:0}
- .section{padding:45px 5%}
+
+@media(max-width:650px){
+ header{height:60px;padding:0 4%}
+ .logo{font-size:17px}
+ .desktop-nav{display:none}
+ .hero{min-height:570px}
+ .arena{width:230px;height:230px}
+ .section{padding:42px 5%}
+ .bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:30;
+  display:flex;justify-content:space-around;
+  background:#080e20f5;border-top:1px solid #285178;
+  padding:12px 5px calc(12px + env(safe-area-inset-bottom));
+  backdrop-filter:blur(15px);
+ }
+ .bottom-nav button{
+  border:0;background:none;color:#9eb4d2;font-size:11px;
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+ }
+ .bottom-nav button span{font-size:20px}
+ .bottom-nav button.active{color:var(--cyan)}
+ body{padding-bottom:65px}
 }
 </style>
 </head>
 
 <body>
 
+<!-- LOADING SCREEN -->
+<div id="loader">
+ <div class="loader-logo">GSP FREE PLAY</div>
+ <div class="loader-ring"></div>
+ <div class="loader-text">ENTERING GAMING WORLD...</div>
+ <div class="progress"><div></div></div>
+</div>
+
 <header>
  <div class="logo">GSP <span>FREE PLAY</span></div>
- <nav>
+ <nav class="desktop-nav">
   <button onclick="go('home')">HOME</button>
   <button onclick="go('games')">GAMES</button>
   <button onclick="go('profile')">PROFILE</button>
@@ -212,8 +262,7 @@ footer{
 <section class="hero" id="home">
  <div class="stars"></div>
  <div class="grid-floor"></div>
-
- <div class="tag">THE FUTURE OF GAMING</div>
+ <div class="tag">NEXT GENERATION GAMING</div>
  <h1>GSP <span>ARENA</span></h1>
  <p class="subtitle">DOWNLOADLESS GAMES ON GSP</p>
 
@@ -221,63 +270,91 @@ footer{
   <div class="ring"></div>
   <div class="ring two"></div>
   <div class="ring three"></div>
-  <div class="core"></div>
+  <div class="core">GSP</div>
  </div>
 
- <button class="play" onclick="go('games')">▶ ENTER GAMING LOBBY</button>
+ <button class="primary" onclick="go('games')">▶ ENTER GAMING LOBBY</button>
 </section>
-
-<main>
 
 <section class="section" id="games">
  <h2 class="heading">SELECT YOUR <span>GAME</span></h2>
- <p class="sub">WELCOME TO YOUR GAMING WORLD</p>
+ <p class="sub">SEARCH AND EXPLORE YOUR FAVOURITE GAMES</p>
 
- <div class="games">
-  <article class="game">
-   <div class="game-art"><div class="emoji">🎮</div></div>
+ <div class="search">
+  <input id="searchInput" placeholder="Search games..." oninput="searchGames()">
+  <button onclick="searchGames()">SEARCH</button>
+ </div>
+
+ <div class="filters">
+  <button class="filter active" onclick="filterGames('all',this)">ALL GAMES</button>
+  <button class="filter" onclick="filterGames('battle',this)">BATTLE ROYALE</button>
+  <button class="filter" onclick="filterGames('other',this)">OTHER</button>
+ </div>
+
+ <div class="games" id="gameList">
+
+  <article class="game" data-category="battle" data-name="free fire india">
+   <div class="art">
+    <div class="symbol">🎮</div>
+    <small>BATTLE ROYALE</small>
+   </div>
    <div class="game-info">
     <h3>FREE FIRE INDIA</h3>
-    <p>Battle Royale Gaming Experience</p>
+    <p>Enter the Battle Royale experience.</p>
     <span class="status">CLOUD SERVICE NOT CONNECTED</span>
-    <button class="play" onclick="playGame()">▶ PLAY NOW</button>
+    <button class="primary" onclick="playGame()">▶ PLAY NOW</button>
    </div>
   </article>
 
-  <article class="game">
-   <div class="game-art"><div class="emoji">🚀</div></div>
+  <article class="game" data-category="other" data-name="space adventure">
+   <div class="art purple">
+    <div class="symbol">🚀</div>
+    <small>SPACE ADVENTURE</small>
+   </div>
    <div class="game-info">
-    <h3>COMING SOON</h3>
-    <p>More exciting gaming experiences.</p>
+    <h3>SPACE ADVENTURE</h3>
+    <p>Explore the universe in future updates.</p>
     <span class="status">COMING SOON</span>
-    <button class="play" onclick="soon()">EXPLORE</button>
+    <button class="primary" onclick="comingSoon()">EXPLORE</button>
    </div>
   </article>
 
-  <article class="game">
-   <div class="game-art"><div class="emoji">🌍</div></div>
+  <article class="game" data-category="other" data-name="world explorer">
+   <div class="art green">
+    <div class="symbol">🌍</div>
+    <small>WORLD EXPLORER</small>
+   </div>
    <div class="game-info">
-    <h3>MORE ADVENTURES</h3>
-    <p>Discover your next adventure.</p>
+    <h3>WORLD EXPLORER</h3>
+    <p>Discover new adventures.</p>
     <span class="status">COMING SOON</span>
-    <button class="play" onclick="soon()">EXPLORE</button>
+    <button class="primary" onclick="comingSoon()">EXPLORE</button>
    </div>
   </article>
+
  </div>
+ <p id="noResults" style="display:none;text-align:center;color:#9bbbd5;padding:30px">No games found.</p>
 </section>
 
 <section class="section" id="profile">
  <h2 class="heading">PLAYER <span>PROFILE</span></h2>
- <p class="sub">YOUR GAMING IDENTITY</p>
- <div class="profile">
-  <div class="avatar">👤</div>
-  <h3>GUEST PLAYER</h3>
-  <p>Welcome to GSP FREE PLAY</p>
-  <p>Account registration is coming in a future update.</p>
+ <p class="sub">CREATE YOUR GSP GAMING IDENTITY</p>
+
+ <div class="profile-card">
+  <div class="avatar" id="avatar">👤</div>
+  <h3 id="displayName">GUEST PLAYER</h3>
+  <p>Your GSP Gaming Identity</p>
+
+  <label>PLAYER NAME</label>
+  <input class="profile-input" id="playerName" maxlength="20" placeholder="Enter your name">
+
+  <label>PROFILE PHOTO</label>
+  <input class="profile-input" id="photoInput" type="file" accept="image/*">
+
+  <button class="primary" onclick="saveProfile()">SAVE PROFILE</button>
+  <p id="saveMessage">Your profile is stored in this browser.</p>
  </div>
 </section>
-
-</main>
 
 <footer>
  <h2>GSP FREE PLAY</h2>
@@ -286,42 +363,139 @@ footer{
  <br>Independent project. Not affiliated with Garena.
 </footer>
 
+<!-- MOBILE NAVIGATION -->
+<div class="bottom-nav">
+ <button class="active" onclick="go('home',this)"><span>⌂</span>HOME</button>
+ <button onclick="go('games',this)"><span>🎮</span>GAMES</button>
+ <button onclick="go('profile',this)"><span>👤</span>PROFILE</button>
+</div>
+
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
  <div class="modal-box">
-  <h2 id="title"></h2>
-  <p id="message"></p>
+  <h2 id="modalTitle"></h2>
+  <p id="modalText"></p>
   <button class="close" onclick="closeModal()">CLOSE</button>
  </div>
 </div>
 
 <script>
-function go(id){
+// LOADING SCREEN
+window.addEventListener('load',()=>{
+ setTimeout(()=>{
+  const loader=document.getElementById('loader');
+  loader.style.opacity='0';
+  setTimeout(()=>loader.remove(),650);
+ },2100);
+});
+
+// NAVIGATION
+function go(id,button){
  document.getElementById(id).scrollIntoView({behavior:'smooth'});
+ if(button){
+  document.querySelectorAll('.bottom-nav button').forEach(b=>b.classList.remove('active'));
+  button.classList.add('active');
+ }
 }
 
+// GAME SEARCH
+function searchGames(){
+ const query=document.getElementById('searchInput').value.toLowerCase().trim();
+ let count=0;
+ document.querySelectorAll('.game').forEach(game=>{
+  const match=game.dataset.name.includes(query);
+  const category=document.querySelector('.filter.active').textContent;
+  const categoryMatch=category==='ALL GAMES' ||
+   (category==='BATTLE ROYALE' && game.dataset.category==='battle') ||
+   (category==='OTHER' && game.dataset.category==='other');
+  game.hidden=!(match && categoryMatch);
+  if(!game.hidden)count++;
+ });
+ document.getElementById('noResults').style.display=count?'none':'block';
+}
+
+function filterGames(category,button){
+ document.querySelectorAll('.filter').forEach(b=>b.classList.remove('active'));
+ button.classList.add('active');
+ searchGames();
+}
+
+// MODAL
 function openModal(title,message){
- document.getElementById('title').textContent=title;
- document.getElementById('message').textContent=message;
+ document.getElementById('modalTitle').textContent=title;
+ document.getElementById('modalText').textContent=message;
  document.getElementById('modal').classList.add('show');
 }
-
-function playGame(){
- openModal(
-  'GSP CLOUD PLAY',
-  'Free Fire India is selected! Authorized cloud gaming service and Garena permission are required before actual gameplay can start.'
- );
-}
-
-function soon(){
- openModal('COMING SOON','New gaming experiences will arrive in future updates.');
-}
-
 function closeModal(){
  document.getElementById('modal').classList.remove('show');
 }
+function playGame(){
+ openModal('GSP CLOUD PLAY',
+ 'Free Fire India selected! An authorized cloud gaming service and Garena permission are required before real gameplay can start.');
+}
+function comingSoon(){
+ openModal('COMING SOON','More gaming experiences are planned for future updates.');
+}
 
-// Floating particles
-for(let i=0;i<35;i++){
+// PLAYER PROFILE
+let photoData='';
+const nameInput=document.getElementById('playerName');
+
+function loadProfile(){
+ try{
+  const saved=localStorage.getItem('gsp_profile');
+  if(saved){
+   const profile=JSON.parse(saved);
+   nameInput.value=profile.name||'';
+   document.getElementById('displayName').textContent=profile.name||'GUEST PLAYER';
+   if(profile.photo){
+    photoData=profile.photo;
+    document.getElementById('avatar').innerHTML='<img src="'+photoData+'" alt="Profile photo">';
+   }
+  }
+ }catch(e){}
+}
+function saveProfile(){
+ const name=nameInput.value.trim();
+ if(!name){
+  document.getElementById('saveMessage').textContent='Please enter your player name.';
+  return;
+ }
+ try{
+  localStorage.setItem('gsp_profile',JSON.stringify({
+   name:name,photo:photoData
+  }));
+  document.getElementById('displayName').textContent=name;
+  document.getElementById('saveMessage').textContent='Profile saved successfully!';
+ }catch(e){
+  document.getElementById('saveMessage').textContent='Storage full. Try a smaller photo.';
+ }
+}
+
+document.getElementById('photoInput').addEventListener('change',function(){
+ const file=this.files[0];
+ if(!file)return;
+ if(!file.type.startsWith('image/')){
+  alert('Please select an image.');
+  return;
+ }
+ if(file.size>800000){
+  alert('Please choose a photo smaller than 800 KB.');
+  this.value='';
+  return;
+ }
+ const reader=new FileReader();
+ reader.onload=e=>{
+  photoData=e.target.result;
+  document.getElementById('avatar').innerHTML=
+   '<img src="'+photoData+'" alt="Profile photo">';
+ };
+ reader.readAsDataURL(file);
+});
+
+loadProfile();
+
+// FLOATING PARTICLES
+for(let i=0;i<30;i++){
  const p=document.createElement('div');
  p.className='particle';
  p.style.left=Math.random()*100+'%';
@@ -330,27 +504,25 @@ for(let i=0;i<35;i++){
  document.body.appendChild(p);
 }
 
-// 3D mouse and touch movement
+// 3D TOUCH AND MOUSE
 const arena=document.getElementById('arena');
 function tilt(x,y){
- const rect=arena.getBoundingClientRect();
- const dx=(x-(rect.left+rect.width/2))/rect.width;
- const dy=(y-(rect.top+rect.height/2))/rect.height;
+ const r=arena.getBoundingClientRect();
+ const dx=(x-r.left-r.width/2)/r.width;
+ const dy=(y-r.top-r.height/2)/r.height;
  arena.style.animation='none';
- arena.style.transform=
-  `rotateY(${dx*35}deg) rotateX(${-dy*30}deg) translateY(-8px)`;
+ arena.style.transform=`rotateY(${dx*35}deg) rotateX(${-dy*30}deg)`;
 }
 document.addEventListener('mousemove',e=>{
- if(window.innerWidth>700)tilt(e.clientX,e.clientY);
+ if(innerWidth>700)tilt(e.clientX,e.clientY);
 });
 document.addEventListener('touchmove',e=>{
  if(e.touches.length)tilt(e.touches[0].clientX,e.touches[0].clientY);
 },{passive:true});
 document.addEventListener('touchend',()=>{
  arena.style.transform='';
- arena.style.animation='arenaFloat 4s ease-in-out infinite';
+ arena.style.animation='float 4s ease-in-out infinite';
 });
 </script>
-
 </body>
 </html>
