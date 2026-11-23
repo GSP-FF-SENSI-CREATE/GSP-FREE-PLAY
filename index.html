@@ -1,1 +1,450 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080b16">
+<title>GSP FREE PLAY - Downloadless Games</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  background:#080b16;
+  color:white;
+  font-family:Arial,sans-serif;
+  overflow-x:hidden;
+}
+
+html{scroll-behavior:smooth}
+
+body:before{
+ content:"";
+ position:fixed;
+ inset:0;
+ background:
+ radial-gradient(circle at 15% 20%,#173b7340,transparent 35%),
+ radial-gradient(circle at 85% 70%,#8b18c333,transparent 35%);
+ z-index:-2;
+}
+
+header{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ padding:20px 6%;
+ background:#090d1bdc;
+ border-bottom:1px solid #263b62;
+ position:sticky;
+ top:0;
+ z-index:10;
+ backdrop-filter:blur(15px);
+}
+
+.logo{
+ font-size:23px;
+ font-weight:900;
+ color:#00eaff;
+ text-shadow:0 0 15px #00cfff;
+}
+
+.logo span{color:white}
+
+nav a{
+ color:white;
+ text-decoration:none;
+ margin-left:20px;
+ font-size:13px;
+}
+
+.hero{
+ min-height:650px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ flex-direction:column;
+ text-align:center;
+ padding:65px 20px;
+ perspective:1000px;
+}
+
+.tag{
+ color:#00eaff;
+ letter-spacing:4px;
+ font-size:12px;
+ font-weight:bold;
+ margin-bottom:20px;
+}
+
+.hero h1{
+ font-size:clamp(36px,8vw,75px);
+ font-weight:1000;
+ line-height:1.1;
+ text-shadow:0 0 25px #008cff;
+ animation:float 3s infinite ease-in-out;
+}
+
+.hero h1 span{color:#00eaff}
+
+.hero p{
+ color:#b8c6e5;
+ margin:20px 0 28px;
+ letter-spacing:2px;
+ font-size:13px;
+}
+
+@keyframes float{
+ 0%,100%{transform:translateY(0) rotateX(0)}
+ 50%{transform:translateY(-12px) rotateX(5deg)}
+}
+
+.art{
+ width:min(90%,520px);
+ height:260px;
+ margin:20px auto 30px;
+ border-radius:25px;
+ position:relative;
+ overflow:hidden;
+ background:
+ radial-gradient(ellipse at 50% 100%,#ff8c22 0%,transparent 42%),
+ radial-gradient(circle at 70% 20%,#a600ff 0%,transparent 40%),
+ linear-gradient(135deg,#102d62,#080b18 60%,#13254b);
+ border:1px solid #00d9ff;
+ box-shadow:0 0 25px #00bfff55,0 25px 60px #000;
+ transform-style:preserve-3d;
+ animation:card 5s infinite ease-in-out;
+}
+
+.art:before{
+ content:"";
+ position:absolute;
+ width:190px;
+ height:190px;
+ border:2px solid #00eaff88;
+ border-radius:50%;
+ left:calc(50% - 95px);
+ top:35px;
+ box-shadow:0 0 35px #00cfff;
+ animation:spin 12s linear infinite;
+}
+
+.art:after{
+ content:"";
+ position:absolute;
+ width:120px;
+ height:160px;
+ left:calc(50% - 60px);
+ top:65px;
+ background:linear-gradient(145deg,#e3eaff,#253c71 55%,#090d20);
+ clip-path:polygon(50% 0,75% 12%,90% 38%,82% 65%,100% 100%,0 100%,18% 65%,10% 38%,25% 12%);
+ filter:drop-shadow(0 0 20px #00dfff);
+}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes card{
+ 0%,100%{transform:rotateY(-5deg) rotateX(2deg)}
+ 50%{transform:rotateY(5deg) rotateX(-2deg)}
+}
+
+.art-text{
+ position:absolute;
+ bottom:15px;
+ left:0;
+ right:0;
+ z-index:2;
+ font-size:22px;
+ font-weight:1000;
+ letter-spacing:4px;
+ text-shadow:0 0 12px #00eaff;
+}
+
+.play{
+ border:none;
+ background:linear-gradient(90deg,#00d9ff,#0077ff);
+ color:#06101e;
+ padding:17px 50px;
+ font-size:18px;
+ font-weight:1000;
+ border-radius:50px;
+ cursor:pointer;
+ box-shadow:0 0 20px #00cfff,0 0 50px #006aff55;
+ transition:.3s;
+ animation:pulse 2s infinite;
+}
+
+.play:hover{
+ transform:scale(1.1);
+ box-shadow:0 0 40px #00eaff;
+}
+
+@keyframes pulse{
+ 50%{box-shadow:0 0 35px #00eaff}
+}
+
+section{
+ padding:65px 6%;
+ text-align:center;
+}
+
+.heading{
+ font-size:30px;
+ margin-bottom:15px;
+}
+
+.heading span{color:#00eaff}
+
+.sub{
+ color:#9caecb;
+ font-size:14px;
+ margin-bottom:35px;
+}
+
+.cards{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+ gap:22px;
+ max-width:950px;
+ margin:auto;
+}
+
+.card{
+ background:linear-gradient(145deg,#172543,#0c1224);
+ border:1px solid #25446c;
+ border-radius:18px;
+ padding:28px 15px;
+ transition:.4s;
+ transform-style:preserve-3d;
+}
+
+.card:hover{
+ transform:translateY(-12px) rotateX(5deg);
+ border-color:#00eaff;
+ box-shadow:0 15px 35px #00bfff22;
+}
+
+.card .emoji{font-size:45px;margin-bottom:15px}
+.card h3{margin-bottom:12px}
+.card p{color:#9caecb;font-size:13px;line-height:1.7}
+
+.status{
+ display:inline-block;
+ margin-top:15px;
+ padding:7px 14px;
+ border-radius:30px;
+ background:#142b3a;
+ color:#00eaff;
+ font-size:11px;
+}
+
+.about{
+ max-width:650px;
+ margin:auto;
+ line-height:1.9;
+ color:#b5c3dc;
+}
+
+footer{
+ padding:35px 15px;
+ background:#050813;
+ text-align:center;
+ color:#7185a8;
+ font-size:12px;
+ border-top:1px solid #23324e;
+ line-height:2;
+}
+
+.modal{
+ display:none;
+ position:fixed;
+ inset:0;
+ background:#000c;
+ z-index:30;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+ backdrop-filter:blur(10px);
+}
+
+.modal-box{
+ width:100%;
+ max-width:420px;
+ background:#101b31;
+ border:1px solid #00dfff;
+ border-radius:20px;
+ padding:30px 20px;
+ text-align:center;
+ box-shadow:0 0 35px #00cfff55;
+ animation:float 2s infinite;
+}
+
+.modal-box h2{color:#00eaff;margin-bottom:15px}
+.modal-box p{color:#c2cee0;line-height:1.7;font-size:14px}
+.close{
+ margin-top:22px;
+ background:#00d9ff;
+ color:#07111f;
+ border:0;
+ border-radius:25px;
+ padding:12px 35px;
+ font-weight:bold;
+ cursor:pointer;
+}
+
+.particle{
+ position:fixed;
+ width:4px;
+ height:4px;
+ background:#00dfff;
+ border-radius:50%;
+ opacity:.5;
+ pointer-events:none;
+ z-index:-1;
+ animation:rise 9s linear infinite;
+}
+
+@keyframes rise{
+ from{transform:translateY(100vh);opacity:0}
+ 20%{opacity:.7}
+ to{transform:translateY(-10vh);opacity:0}
+}
+
+@media(max-width:600px){
+ header{padding:17px 4%}
+ .logo{font-size:18px}
+ nav a{margin-left:9px;font-size:11px}
+ .hero{min-height:590px}
+ .art{height:220px}
+ .heading{font-size:25px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">GSP <span>FREE PLAY</span></div>
+ <nav>
+  <a href="#home">HOME</a>
+  <a href="#games">GAMES</a>
+  <a href="#about">ABOUT</a>
+ </nav>
+</header>
+
+<main>
+<div class="hero" id="home">
+
+ <div class="tag">WELCOME TO THE GAMING WORLD</div>
+
+ <h1>GSP <span>FREE PLAY</span></h1>
+
+ <p>DOWNLOADLESS GAMES ON GSP</p>
+
+ <div class="art">
+  <div class="art-text">BATTLE ROYALE</div>
+ </div>
+
+ <button class="play" onclick="openGame()">
+  ▶ PLAY NOW
+ </button>
+
+ <p>YOUR GAMING WORLD STARTS HERE</p>
+
+</div>
+
+<section id="games">
+ <h2 class="heading">OUR <span>GAMES</span></h2>
+ <p class="sub">Choose your favourite gaming experience</p>
+
+ <div class="cards">
+
+  <div class="card">
+   <div class="emoji">🎮</div>
+   <h3>Free Fire India</h3>
+   <p>Battle Royale Gaming Experience</p>
+   <div class="status">CLOUD PLAY NOT CONNECTED</div>
+   <br><br>
+   <button class="play" onclick="openGame()">PLAY NOW</button>
+  </div>
+
+  <div class="card">
+   <div class="emoji">🚀</div>
+   <h3>Coming Soon</h3>
+   <p>More exciting games will be added here.</p>
+   <div class="status">COMING SOON</div>
+  </div>
+
+  <div class="card">
+   <div class="emoji">🌍</div>
+   <h3>More Adventures</h3>
+   <p>Discover new gaming experiences.</p>
+   <div class="status">COMING SOON</div>
+  </div>
+
+ </div>
+</section>
+
+<section id="about">
+ <h2 class="heading">ABOUT <span>GSP</span></h2>
+ <p class="about">
+  Welcome to GSP FREE PLAY.
+  Our vision is to build a modern gaming platform
+  where players can discover exciting games.
+  Our goal is to explore browser and cloud gaming
+  experiences with a smooth mobile-friendly design.
+ </p>
+</section>
+
+</main>
+
+<footer>
+ <h2>GSP FREE PLAY</h2>
+ DOWNLOADLESS GAMES ON GSP
+ <br>
+ © 2026 GSP FREE PLAY. All Rights Reserved.
+ <br>
+ This is an independent fan project and is not affiliated
+ with or endorsed by Garena.
+</footer>
+
+<div class="modal" id="gameModal">
+ <div class="modal-box">
+  <h2>GSP CLOUD PLAY</h2>
+  <p>
+   Welcome to GSP FREE PLAY!<br><br>
+   Free Fire India cloud gaming is not connected yet.
+   An authorized cloud gaming service and the required
+   permission are needed before gameplay can begin.
+   <br><br>
+   Stay tuned for future updates!
+  </p>
+  <button class="close" onclick="closeGame()">GOT IT</button>
+ </div>
+</div>
+
+<script>
+function openGame(){
+ document.getElementById("gameModal").style.display="flex";
+}
+
+function closeGame(){
+ document.getElementById("gameModal").style.display="none";
+}
+
+document.getElementById("gameModal").addEventListener("click",function(e){
+ if(e.target===this) closeGame();
+});
+
+for(let i=0;i<22;i++){
+ let p=document.createElement("div");
+ p.className="particle";
+ p.style.left=Math.random()*100+"%";
+ p.style.animationDelay=Math.random()*9+"s";
+ p.style.animationDuration=(6+Math.random()*8)+"s";
+ document.body.appendChild(p);
+}
+</script>
+
+</body>
+   </html>
+   
