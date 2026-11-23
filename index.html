@@ -237,6 +237,29 @@ footer{
  .bottom-nav button.active{color:var(--cyan)}
  body{padding-bottom:65px}
 }
+ /* FREE FIRE PREMIUM EFFECT */
+
+.game[data-name="free fire india"] {
+    border: 1px solid rgba(0, 220, 255, 0.6);
+    box-shadow: 0 0 12px rgba(0, 200, 255, 0.25);
+    transition: all 0.35s ease;
+}
+
+.game[data-name="free fire india"]:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow:
+        0 0 15px #00d9ff,
+        0 0 30px rgba(0, 120, 255, 0.7);
+    border-color: #00eaff;
+}
+
+.game[data-name="free fire india"] h3 {
+    text-shadow: 0 0 8px #00d9ff;
+}
+
+.game[data-name="free fire india"]:active {
+    transform: scale(0.98);
+}
 </style>
 </head>
 
