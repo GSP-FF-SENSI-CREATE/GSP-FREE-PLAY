@@ -260,6 +260,70 @@ footer{
 .game[data-name="free fire india"]:active {
     transform: scale(0.98);
 }
+ /* GSP FREE PLAY V4 PREMIUM UI */
+
+.game {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(0,220,255,0.35);
+    border-radius: 18px;
+    transition: all 0.4s ease;
+    background: linear-gradient(145deg,#14264a,#070d20);
+}
+
+.game:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 0 20px #00d9ff,
+                0 0 40px rgba(0,100,255,0.4);
+}
+
+.game .art {
+    overflow: hidden;
+}
+
+.game .art img {
+    transition: transform 0.6s ease;
+}
+
+.game:hover .art img {
+    transform: scale(1.08);
+}
+
+.game h3 {
+    color: #ffffff;
+    text-shadow: 0 0 10px #00d9ff;
+}
+
+.primary {
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 12px rgba(0,210,255,0.4);
+}
+
+.primary:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 20px #00d9ff;
+}
+
+.primary:active {
+    transform: scale(0.96);
+}
+
+#gameDetails {
+    animation: gspAppear 0.5s ease;
+}
+
+@keyframes gspAppear {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 </style>
 </head>
 
