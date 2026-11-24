@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>GSP BIKE RIDER 3D</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;overflow:hidden;background:#111;color:white;font-family:Arial}
+#game{position:fixed;inset:0}
+#top{
+ position:fixed;top:12px;left:12px;right:12px;
+ display:flex;justify-content:space-between;align-items:center;
+ pointer-events:none;z-index:5
+}
+.logo{font-weight:1000;color:#00eaff;text-shadow:0 0 12px #00eaff}
+.hud{background:#071426dd;padding:10px 14px;border:1px solid #00dfff;border-radius:10px}
+.controls{position:fixed;bottom:20px;left:0;right:0;display:flex;justify-content:space-between;padding:0 18px;z-index:5}
+.pad{display:grid;grid-template-columns:55px 55px 55px;gap:5px}
+.ctrl{
+ width:55px;height:55px;border:1px solid #00eaff;border-radius:13px;
+ background:#06172dcc;color:white;font-size:22px;touch-action:none
+}
+.ctrl:active{background:#00aaff}
+.actions{display:flex;flex-direction:column;gap:8px}
+.action{
+ background:#071426eF;color:#00eaff;border:1px solid #00eaff;
+ border-radius:10px;padding:12px;font-weight:bold
+}
+#start{
+ position:fixed;inset:0;background:linear-gradient(#061329dd,#02050bee);
+ z-index:10;display:flex;align-items:center;justify-content:center;text-align:center;padding:25px
+}
+.panel{max-width:400px;width:100%;background:#0b1d37;border:1px solid #00eaff;border-radius:20px;padding:25px;box-shadow:0 0 35px #008cff66}
+.panel h1{color:#00eaff}
+#phone{
+ display:none;position:fixed;z-index:20;right:15px;top:65px;
+ width:min(300px,calc(100% - 30px));background:#101a2c;
+ border:2px solid #00eaff;border-radius:25px;padding:18px;
+ box-shadow:0 0 30px #00bfff77
+}
+#phone h2{text-align:center;color:#00eaff;margin:5px}
+#number{width:100%;padding:13px;background:#050b18;color:white;border:1px solid #345;border-radius:8px;text-align:center;font-size:22px;margin:12px 0}
+.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.keys button,.phonebtn{
+ padding:13px;border:0;border-radius:8px;background:#203957;color:white;font-weight:bold
+}
+.phonebtn{width:100%;margin-top:9px;background:#00a86b;color:white}
+#cheatList{display:none;max-height:180px;overflow:auto;margin-top:10px;font-size:13px;line-height:2;color:#c9eaff}
+#message{font-size:12px;color:#00eaff;text-align:center;min-height:20px}
+#cameraNote{position:fixed;top:65px;left:12px;font-size:11px;color:#d5eaff}
+@media(min-width:700px){.controls{padding:0 45px}.ctrl{width:62px;height:62px}}
+</style>
+</head>
+<body>
+<div id="game"></div>
+
+<div id="top">
+ <div class="logo">GSP BIKE RIDER 3D</div>
+ <div class="hud">SPEED: <span id="speed">0</span> KM/H</div>
+</div>
+<div id="cameraNote">THIRD PERSON CAMERA</div>
+
+<div class="controls">
+ <div class="pad">
+  <button class="ctrl" data-key="ArrowLeft">◀</button>
+  <button class="ctrl" data-key="ArrowUp">▲</button>
+  <button class="ctrl" data-key="ArrowRight">▶</button>
+  <span></span>
+  <button class="ctrl" data-key="ArrowDown">▼</button>
+ </div>
+ <div class="actions">
+  <button class="action" id="phoneBtn">📱 PHONE</button>
+  <button class="action" id="cameraBtn">📷 CAMERA</button>
+  <button class="action" id="brakeBtn">BRAKE</button>
+ </div>
+</div>
+
+<div id="phone">
+ <h2>GSP PHONE</h2>
+ <p style="text-align:center;font-size:11px;color:#9db9d8">DIAL A CHEAT CODE</p>
+ <input id="number" readonly placeholder="Enter code">
+ <div class="keys">
+  <button onclick="press('1')">1</button><button onclick="press('2')">2</button><button onclick="press('3')">3</button>
+  <button onclick="press('4')">4</button><button onclick="press('5')">5</button><button onclick="press('6')">6</button>
+  <button onclick="press('7')">7</button><button onclick="press('8')">8</button><button onclick="press('9')">9</button>
+  <button onclick="clearCode()">C</button><button onclick="press('0')">0</button><button onclick="backspace()">⌫</button>
+ </div>
+ <button class="phonebtn" onclick="callCode()">📞 CALL</button>
+ <button class="phonebtn" style="background:#24517b" onclick="showCheats()">📋 ALL CHEATS</button>
+ <div id="cheatList">
+  1111 — Sports Bike<br>
+  2222 — Bullet Bike<br>
+  1234 — Supercar<br>
+  1020 — SUV<br>
+  3333 — Jeep<br>
+  4444 — Racing Bike<br>
+  5555 — Luxury Car<br>
+  6666 — Monster Truck<br>
+  7777 — Scooter<br>
+  8888 — Police Car<br>
+  9999 — Offroad Bike
+ </div>
+ <p id="message"></p>
+ <button class="phonebtn" style="background:#713d4c" onclick="closePhone()">CLOSE PHONE</button>
+</div>
+
+<div id="start">
+ <div class="panel">
+  <h1>🏍️ GSP BIKE RIDER 3D</h1>
+  <p>Explore the city in your own 3D driving world.</p>
+  <p style="font-size:12px;color:#9eb9d8">Use arrow keys or touch controls to ride.</p>
+  <button class="action" id="startBtn">▶ START GAME</button>
+ </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const scene=new THREE.Scene();
+scene.background=new THREE.Color(0x87ceeb);
+scene.fog=new THREE.Fog(0x87ceeb,35,180);
+
+const camera=new THREE.PerspectiveCamera(70,innerWidth/innerHeight,.1,500);
+const renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(innerWidth,innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.shadowMap.enabled=true;
+document.getElementById('game').appendChild(renderer.domElement);
+
+scene.add(new THREE.HemisphereLight(0xffffff,0x526078,2));
+const sun=new THREE.DirectionalLight(0xffffff,2);
+sun.position.set(-20,35,15);
+sun.castShadow=true;
+scene.add(sun);
+
+const mat=(color)=>new THREE.MeshStandardMaterial({color,roughness:.8});
+const road=new THREE.Mesh(new THREE.PlaneGeometry(16,500),mat(0x30343b));
+road.rotation.x=-Math.PI/2;
+road.position.z=-100;
+road.receiveShadow=true;
+scene.add(road);
+
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(300,500),mat(0x3b8b45));
+ground.rotation.x=-Math.PI/2;
+ground.position.set(0,-.08,-100);
+scene.add(ground);
+
+for(let z=10;z>-300;z-=12){
+ const line=new THREE.Mesh(new THREE.BoxGeometry(.18,.03,5),mat(0xffffff));
+ line.position.set(0,.025,z);
+ scene.add(line);
+}
+for(let side of [-1,1]){
+ for(let z=8;z>-280;z-=15){
+  const h=8+Math.random()*20,w=5+Math.random()*5;
+  const building=new THREE.Mesh(
+   new THREE.BoxGeometry(w,h,7),
+   mat([0x657b99,0x9b9eaa,0x52647c,0xc0a98a][Math.floor(Math.random()*4)])
+  );
+  building.position.set(side*(13+Math.random()*8),h/2,z);
+  building.castShadow=true;
+  scene.add(building);
+ }
+}
+
+const bike=new THREE.Group();
+scene.add(bike);
+
+function cylinder(parent,r1,r2,length,material,x,y,z,rx=0){
+ const m=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,length,16),material);
+ m.position.set(x,y,z);m.rotation.x=rx;m.castShadow=true;parent.add(m);return m;
+}
+const black=mat(0x111111),red=mat(0xff2020),silver=mat(0xaaaaaa);
+function wheel(parent,z){
+ const w=new THREE.Mesh(new THREE.TorusGeometry(.43,.12,10,22),black);
+ w.position.set(0,.45,z);w.rotation.y=Math.PI/2;parent.add(w);
+ const hub=new THREE.Mesh(new THREE.CylinderGeometry(.13,.13,.22,16),silver);
+ hub.rotation.z=Math.PI/2;hub.position.copy(w.position);parent.add(hub);
+}
+function makeBike(){
+ bike.clear();
+ wheel(bike,1);wheel(bike,-1);
+ const body=new THREE.Mesh(new THREE.BoxGeometry(.45,.35,1.25),red);
+ body.position.set(0,1,-.05);bike.add(body);
+ const seat=new THREE.Mesh(new THREE.BoxGeometry(.5,.15,.65),black);
+ seat.position.set(0,1.35,-.35);bike.add(seat);
+ const handle=new THREE.Mesh(new THREE.BoxGeometry(1,.09,.1),silver);
+ handle.position.set(0,1.45,.85);bike.add(handle);
+ const rider=new THREE.Mesh(new THREE.BoxGeometry(.45,.75,.35),mat(0x142d56));
+ rider.position.set(0,1.85,-.2);bike.add(rider);
+ const helmet=new THREE.Mesh(new THREE.SphereGeometry(.28,16,12),mat(0x00dfff));
+ helmet.position.set(0,2.35,-.12);bike.add(helmet);
+ bike.position.set(0,0,0);
+}
+makeBike();
+
+let vehicleName='Sports Bike';
+let speed=0,steer=0,started=false,firstPerson=false;
+const keys={};
+let phoneOpen=false;
+
+const codes={
+ '1111':'Sports Bike','2222':'Bullet Bike','1234':'Supercar',
+ '1020':'SUV','3333':'Jeep','4444':'Racing Bike',
+ '5555':'Luxury Car','6666':'Monster Truck','7777':'Scooter',
+ '8888':'Police Car','9999':'Offroad Bike'
+};
+
+function spawnVehicle(name){
+ vehicleName=name;
+ makeBike();
+ const colors={
+  'Sports Bike':0xff2020,'Bullet Bike':0x222222,
+  'Racing Bike':0xffaa00,'Offroad Bike':0x26aa48,
+  'Scooter':0x22aaff,'Supercar':0x7d35ff,
+  'SUV':0xdddddd,'Jeep':0x997044,
+  'Luxury Car':0x111111,'Monster Truck':0x883333,
+  'Police Car':0xeeeeee
+ };
+ bike.children.forEach(c=>{
+  if(c.material && c.material.color && c.geometry.type==='BoxGeometry'){
+   c.material=mat(colors[name]||0xff2020);
+  }
+ });
+ document.getElementById('message').textContent=name+' spawned!';
+}
+
+function press(n){
+ const el=document.getElementById('number');
+ if(el.value.length<4)el.value+=n;
+}
+function clearCode(){document.getElementById('number').value='';}
+function backspace(){const el=document.getElementById('number');el.value=el.value.slice(0,-1);}
+function callCode(){
+ const code=document.getElementById('number').value;
+ if(codes[code])spawnVehicle(codes[code]);
+ else document.getElementById('message').textContent='Invalid code. Check All Cheats.';
+ clearCode();
+}
+function showCheats(){
+ const el=document.getElementById('cheatList');
+ el.style.display=el.style.display==='block'?'none':'block';
+}
+function closePhone(){
+ phoneOpen=false;document.getElementById('phone').style.display='none';
+}
+document.getElementById('phoneBtn').onclick=()=>{
+ phoneOpen=!phoneOpen;
+ document.getElementById('phone').style.display=phoneOpen?'block':'none';
+};
+
+document.getElementById('cameraBtn').onclick=()=>{
+ firstPerson=!firstPerson;
+ document.getElementById('cameraNote').textContent=firstPerson?'FIRST PERSON CAMERA':'THIRD PERSON CAMERA';
+};
+
+document.getElementById('brakeBtn').onpointerdown=()=>keys['ArrowDown']=true;
+document.getElementById('brakeBtn').onpointerup=()=>keys['ArrowDown']=false;
+
+document.querySelectorAll('.ctrl').forEach(btn=>{
+ const k=btn.dataset.key;
+ btn.addEventListener('pointerdown',e=>{e.preventDefault();keys[k]=true});
+ btn.addEventListener('pointerup',()=>keys[k]=false);
+ btn.addEventListener('pointerleave',()=>keys[k]=false);
+ btn.addEventListener('pointercancel',()=>keys[k]=false);
+});
+addEventListener('keydown',e=>{keys[e.key]=true});
+addEventListener('keyup',e=>{keys[e.key]=false});
+
+document.getElementById('startBtn').onclick=()=>{
+ started=true;document.getElementById('start').style.display='none';
+};
+
+const clock=new THREE.Clock();
+function animate(){
+ requestAnimationFrame(animate);
+ const dt=Math.min(clock.getDelta(),.04);
+
+ if(started && !phoneOpen){
+  if(keys['ArrowUp']||keys['w'])speed=Math.min(speed+35*dt,100);
+  else speed=Math.max(speed-12*dt,0);
+  if(keys['ArrowDown']||keys['s'])speed=Math.max(speed-65*dt,0);
+  if(keys['ArrowLeft']||keys['a'])bike.position.x=Math.max(-6,bike.position.x-5*dt);
+  if(keys['ArrowRight']||keys['d'])bike.position.x=Math.min(6,bike.position.x+5*dt);
+
+  bike.position.z-=speed*dt*.025;
+  if(bike.position.z<-25)bike.position.z=0;
+  bike.rotation.z=(keys['ArrowLeft']||keys['a'])?.12:(keys['ArrowRight']||keys['d'])?-.12:0;
+ }
+ document.getElementById('speed').textContent=Math.round(speed);
+
+ if(firstPerson){
+  camera.position.set(bike.position.x,2.5,bike.position.z+1.0);
+  camera.lookAt(bike.position.x,1.7,bike.position.z-8);
+ }else{
+  camera.position.set(bike.position.x,5.2,bike.position.z+9);
+  camera.lookAt(bike.position.x,1,bike.position.z-5);
+ }
+ renderer.render(scene,camera);
+}
+animate();
+
+addEventListener('resize',()=>{
+ camera.aspect=innerWidth/innerHeight;
+ camera.updateProjectionMatrix();
+ renderer.setSize(innerWidth,innerHeight);
+});
+</script>
+</body>
+</html>
